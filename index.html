@@ -118,22 +118,29 @@
             margin-bottom: 15px;
             padding: 0 10px;
         }
+        
+        /* تنسيق أسماء الآباء مثل الصورة */
         .parents-section {
-            font-size: 0.9rem;
+            font-family: 'Amiri', serif;
+            font-size: 1.05rem;
             color: #444;
             margin-bottom: 12px;
             font-weight: 600;
             background: #faf8f5;
-            padding: 8px;
+            padding: 10px;
             border-radius: 8px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
         }
+
         .invitation-to {
             font-size: 0.85rem;
             color: var(--text-muted);
             margin-bottom: 8px;
         }
 
-        /* أسماء أمير وفاطمة بخط الرقعة الجميل */
+        /* أسماء أمير وفاطمة بخط الرقعة الفخم */
         .names-area {
             font-family: 'Reem Kufi', sans-serif;
             font-size: 2.5rem;
@@ -187,7 +194,7 @@
             display: block;
         }
 
-        /* الآية القرآنية أسفل القاعة بخط المصحف / الأميري */
+        /* الآية القرآنية بخط مصحفي جميل تحت الصورة */
         .quran-verse {
             font-family: 'Amiri', serif;
             font-size: 0.95rem;
@@ -244,8 +251,11 @@
                 في العمر أيام يزينها السرور، وسرور هذا اليوم مختلف لحظات الفرح. اخترنا من العمر موعداً بكل حب ومودة لنتشرف بدعوتكم.
             </p>
 
+            <!-- الأسماء بدون كلمات والد العريس والعروس -->
             <div class="parents-section">
-                عنهم: السيد ياسر ⟡ والد العريس &nbsp;|&nbsp; السيد انمار ⟡ والد العروس
+                <span>السيد ياسر</span>
+                <span style="color: var(--gold);">❖</span>
+                <span>السيد انمار</span>
             </div>
 
             <div class="invitation-to">لحضور ليلة من أجمل ليالي العمر حفل خطوبـة أبنائهما</div>
@@ -257,7 +267,7 @@
             <div class="welcome-phrase">أهلاً بك شريكاً للعمر وحبيباً للقلب</div>
 
             <div class="date-location-box">
-                📅 <strong>السبت، ٢٨ نوفمبر ٢٠٢٦</strong>
+                📅 <strong>السبت، ٢٨ نوفمبر ٢٠٢٦ - الساعة ٤:٠٠ عصراً</strong>
                 <span>📍 بغداد - الكاظمية | منتجع العبسلي</span>
             </div>
 
@@ -291,7 +301,7 @@
         }
 
         function addToCalendar() {
-            window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('خطوبة أمير وفاطمة - منتجع العبسلي')}&dates=20261128T170000Z/20261128T220000Z&details=${encodeURIComponent('ننتظركم في منتجع العبسلي - الكاظمية لمشاركتنا فرحة خطوبتنا')}`, '_blank');
+            window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('خطوبة أمير وفاطمة - منتجع العبسلي')}&dates=20261128T130000Z/20261128T180000Z&details=${encodeURIComponent('ننتظركم في منتجع العبسلي - الكاظمية الساعة 4 عصراً لمشاركتنا فرحة خطوبتنا')}`, '_blank');
         }
     </script>
 </body>
