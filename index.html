@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دعوة خطوبة - أمير & فاطمة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Reem+Kufi:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&family=Alex+Brush&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #f7f5f2;
@@ -24,45 +24,97 @@
             align-items: center;
             padding: 15px;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* شاشة الظرف التفاعلي بالبداية */
+        /* تأثير الفراشات الطائرة في الخلفية */
+        .butterfly {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: rgba(184, 151, 83, 0.4);
+            clip-path: polygon(50% 0%, 100% 30%, 80% 90%, 50% 70%, 20% 90%, 0% 30%);
+            animation: fly 8s infinite linear;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .butterfly:nth-child(1) { top: 10%; left: 10%; animation-duration: 9s; animation-delay: 0s; }
+        .butterfly:nth-child(2) { top: 70%; left: 80%; animation-duration: 12s; animation-delay: 2s; }
+        .butterfly:nth-child(3) { top: 40%; left: 85%; animation-duration: 10s; animation-delay: 1s; }
+        .butterfly:nth-child(4) { top: 80%; left: 15%; animation-duration: 11s; animation-delay: 3s; }
+
+        @keyframes fly {
+            0% { transform: translateY(0) translateX(0) rotate(0deg) scale(0.8); opacity: 0.2; }
+            50% { transform: translateY(-100px) translateX(50px) rotate(45deg) scale(1.2); opacity: 0.8; }
+            100% { transform: translateY(-200px) translateX(-30px) rotate(90deg) scale(0.6); opacity: 0; }
+        }
+
+        /* شاشة الظرف الحقيقي والختم الشمعي */
         #envelope-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #1b241e, #121814);
+            background: #121814;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 999;
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transition: opacity 1s ease, transform 1s ease;
         }
-        .envelope-box {
-            text-align: center;
+        .real-envelope {
+            width: 320px;
+            height: 220px;
+            background: #e8e2d5;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             cursor: pointer;
-            animation: bounce 2s infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.5s ease;
         }
-        .envelope-icon {
-            font-size: 5rem;
-            margin-bottom: 15px;
+        .real-envelope:hover {
+            transform: scale(1.03);
         }
-        .envelope-text {
-            font-family: 'Amiri', serif;
+        /* غطاء الظرف */
+        .envelope-flap {
+            position: absolute;
+            top: 0; left: 0; width: 0; height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 120px solid #dcd4c3;
+            transform-origin: top;
+            transition: transform 0.6s ease;
+            z-index: 3;
+        }
+        /* الختم الشمعي */
+        .wax-seal {
+            width: 60px;
+            height: 60px;
+            background: #a32d2d;
+            border-radius: 50%;
+            position: absolute;
+            top: 90px;
+            z-index: 4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.3);
+            border: 2px dashed #7a1f1f;
             color: #f3e5ab;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
+            font-family: 'Amiri', serif;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
-        .envelope-sub {
-            color: #b0b0b0;
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-10px);}
-            60% {transform: translateY(-5px);}
+        .envelope-instruction {
+            position: absolute;
+            bottom: -50px;
+            width: 100%;
+            text-align: center;
+            color: #d4af37;
+            font-family: 'Amiri', serif;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
         }
 
         /* بطاقة الدعوة الرئيسية */
@@ -80,6 +132,7 @@
             transform: scale(0.9);
             transition: all 0.8s ease;
             display: none;
+            z-index: 10;
         }
         .invitation-card.show {
             opacity: 1;
@@ -88,46 +141,58 @@
 
         .header-chandelier {
             width: 100%;
-            height: 110px;
+            height: 100px;
             background: url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=600&q=80') center/cover no-repeat;
             position: relative;
         }
         .header-chandelier::after {
             content: '';
             position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 40px;
+            bottom: 0; left: 0; width: 100%; height: 30px;
             background: linear-gradient(to top, #ffffff, transparent);
         }
 
         .content-body {
-            padding: 10px 20px 30px 20px;
+            padding: 5px 20px 30px 20px;
         }
+
+        /* الآية القرآنية في الأعلى ومتوسطة الصفحة */
+        .quran-verse-top {
+            font-family: 'Amiri', serif;
+            font-size: 0.85rem;
+            color: #554a3e;
+            background: #faf7f2;
+            border: 1px solid rgba(184, 151, 83, 0.3);
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
         .inv-title {
             font-family: 'Amiri', serif;
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             color: var(--gold);
             font-weight: 700;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
+            margin-bottom: 8px;
         }
         .inv-verse {
             font-family: 'Amiri', serif;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--text-muted);
-            line-height: 1.7;
-            margin-bottom: 15px;
-            padding: 0 10px;
+            line-height: 1.6;
+            margin-bottom: 12px;
         }
-        
-        /* تنسيق أسماء الآباء مثل الصورة */
+
         .parents-section {
             font-family: 'Amiri', serif;
-            font-size: 1.05rem;
+            font-size: 1rem;
             color: #444;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             font-weight: 600;
             background: #faf8f5;
-            padding: 10px;
+            padding: 8px;
             border-radius: 8px;
             display: flex;
             justify-content: space-around;
@@ -135,57 +200,70 @@
         }
 
         .invitation-to {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--text-muted);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
-        /* أسماء أمير وفاطمة بخط الرقعة الفخم */
+        /* أسماء العرسان بخط ناعم راقي مع تأثير التغبيش السري */
         .names-area {
-            font-family: 'Reem Kufi', sans-serif;
-            font-size: 2.5rem;
-            color: var(--text-main);
-            font-weight: 700;
-            margin: 10px 0;
+            font-family: 'Alex Brush', cursive, serif;
+            font-size: 3.2rem;
+            color: var(--gold);
+            margin: 5px 0;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 15px;
+            filter: blur(8px);
+            transition: filter 1s ease;
+            cursor: pointer;
+        }
+        .names-area.revealed {
+            filter: blur(0);
         }
         .names-area span {
-            color: var(--gold);
-            font-size: 1.8rem;
+            color: #444;
+            font-size: 2rem;
+            font-family: 'Amiri', serif;
+        }
+        .reveal-hint {
+            font-size: 0.75rem;
+            color: #a32d2d;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-weight: 600;
         }
 
         .welcome-phrase {
             font-family: 'Amiri', serif;
-            font-size: 1.05rem;
+            font-size: 1rem;
             color: var(--gold);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             font-style: italic;
         }
 
         .date-location-box {
             background: #faf8f5;
             border: 1px solid rgba(184, 151, 83, 0.3);
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-            line-height: 1.6;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            line-height: 1.5;
             color: var(--text-main);
         }
         .date-location-box span {
             display: block;
             color: var(--gold);
             font-weight: 700;
-            margin-top: 4px;
+            margin-top: 3px;
         }
 
         .couple-image-container {
             width: 100%;
-            margin-top: 10px;
-            border-radius: 15px;
+            margin-top: 8px;
+            border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
@@ -194,32 +272,18 @@
             display: block;
         }
 
-        /* الآية القرآنية بخط مصحفي جميل تحت الصورة */
-        .quran-verse {
-            font-family: 'Amiri', serif;
-            font-size: 0.95rem;
-            color: #4a4238;
-            background: #fdfcf9;
-            border-right: 3px solid var(--gold);
-            padding: 12px;
-            margin-top: 20px;
-            border-radius: 8px;
-            line-height: 1.8;
-            text-align: justify;
-        }
-
         .btn-calendar {
             display: block;
             width: 100%;
             background: var(--gold);
             color: #fff;
             border: none;
-            padding: 12px;
+            padding: 11px;
             border-radius: 10px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 15px;
             transition: 0.2s;
             text-decoration: none;
             box-shadow: 0 4px 10px rgba(184, 151, 83, 0.2);
@@ -231,27 +295,38 @@
 </head>
 <body>
 
-    <!-- شاشة الظرف الافتتاحي -->
-    <div id="envelope-screen" onclick="openInvitation()">
-        <div class="envelope-box">
-            <div class="envelope-icon">💌</div>
-            <div class="envelope-text">دعوة خطوبة خاصة</div>
-            <div class="envelope-sub">انقر هنا لفتح الظرف وعرض الدعوة</div>
+    <!-- فراشات متحركة بالخلفية -->
+    <div class="butterfly"></div>
+    <div class="butterfly"></div>
+    <div class="butterfly"></div>
+    <div class="butterfly"></div>
+
+    <!-- شاشة الظرف الحقيقي مع الختم الشمعي -->
+    <div id="envelope-screen" onclick="openEnvelope()">
+        <div class="real-envelope">
+            <div class="envelope-flap" id="envFlap"></div>
+            <div class="wax-seal">ع&ف</div>
+            <div class="envelope-instruction">اضغط لفتح الرسالة 💌</div>
         </div>
     </div>
 
-    <!-- بطاقة الدعوة -->
+    <!-- بطاقة الدعوة الرئيسية -->
     <div class="invitation-card" id="invCard">
         <div class="header-chandelier"></div>
 
         <div class="content-body">
+            
+            <!-- الآية القرآنية في الأعلى وبمنتصف الصفحة -->
+            <div class="quran-verse-top">
+                ﴿ وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ﴾
+            </div>
+
             <div class="inv-title">دَعوةُ خُطوبة</div>
             
             <p class="inv-verse">
                 في العمر أيام يزينها السرور، وسرور هذا اليوم مختلف لحظات الفرح. اخترنا من العمر موعداً بكل حب ومودة لنتشرف بدعوتكم.
             </p>
 
-            <!-- الأسماء بدون كلمات والد العريس والعروس -->
             <div class="parents-section">
                 <span>السيد ياسر</span>
                 <span style="color: var(--gold);">❖</span>
@@ -260,9 +335,11 @@
 
             <div class="invitation-to">لحضور ليلة من أجمل ليالي العمر حفل خطوبـة أبنائهما</div>
 
-            <div class="names-area">
-                أمير <span>&</span> فاطمة
+            <!-- أسماء العرسان وعليها تغبيش يتم كشفه بالضغط -->
+            <div class="names-area" id="namesArea" onclick="revealNames()" title="اضغط لإزالة التغبيش">
+                Ameer <span>&</span> Fatima
             </div>
+            <div class="reveal-hint" id="revealHint" onclick="revealNames()">✨ اضغط هنا لكشف الأسماء ✨</div>
 
             <div class="welcome-phrase">أهلاً بك شريكاً للعمر وحبيباً للقلب</div>
 
@@ -276,28 +353,36 @@
                 <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80" alt="صورة العروسين">
             </div>
 
-            <!-- الآية القرآنية بخط مصحفي جميل تحت الصورة -->
-            <div class="quran-verse">
-                ﴿ وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ ﴾
-            </div>
-
             <button class="btn-calendar" onclick="addToCalendar()">إضافة الموعد إلى التقويم</button>
         </div>
     </div>
 
     <script>
-        function openInvitation() {
-            const env = document.getElementById('envelope-screen');
+        function openEnvelope() {
+            const flap = document.getElementById('envFlap');
+            const envScreen = document.getElementById('envelope-screen');
             const card = document.getElementById('invCard');
+
+            // حركة فتح الظرف
+            flap.style.transform = 'rotateX(180deg)';
             
-            env.style.opacity = '0';
             setTimeout(() => {
-                env.style.display = 'none';
-                card.style.display = 'block';
+                envScreen.style.opacity = '0';
                 setTimeout(() => {
-                    card.classList.add('show');
-                }, 50);
-            }, 800);
+                    envScreen.style.display = 'none';
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.classList.add('show');
+                    }, 50);
+                }, 800);
+            }, 500);
+        }
+
+        function revealNames() {
+            const names = document.getElementById('namesArea');
+            const hint = document.getElementById('revealHint');
+            names.classList.add('revealed');
+            hint.style.display = 'none';
         }
 
         function addToCalendar() {
