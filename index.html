@@ -11,7 +11,7 @@
             --card-bg: #ffffff;
             --text-main: #333333;
             --text-muted: #666666;
-            --gold: #b89753;
+            --gold: #d4af37;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -27,12 +27,12 @@
             position: relative;
         }
 
-        /* تأثير الفراشات الطائرة في الخلفية */
+        /* فراشات متحركة بالخلفية */
         .butterfly {
             position: absolute;
             width: 15px;
             height: 15px;
-            background: rgba(184, 151, 83, 0.4);
+            background: rgba(212, 175, 55, 0.4);
             clip-path: polygon(50% 0%, 100% 30%, 80% 90%, 50% 70%, 20% 90%, 0% 30%);
             animation: fly 8s infinite linear;
             z-index: 1;
@@ -49,73 +49,133 @@
             100% { transform: translateY(-200px) translateX(-30px) rotate(90deg) scale(0.6); opacity: 0; }
         }
 
-        /* شاشة الظرف الحقيقي والختم الشمعي */
+        /* شاشة الظرف الملكي الفخم المطابق للصورة */
         #envelope-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: #121814;
+            background: #0d1210;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 999;
             transition: opacity 1s ease, transform 1s ease;
         }
-        .real-envelope {
-            width: 320px;
-            height: 220px;
-            background: #e8e2d5;
-            border-radius: 8px;
+        
+        .royal-envelope {
+            width: 340px;
+            height: 520px;
+            background: #151c17;
+            border: 2px solid var(--gold);
+            border-radius: 12px;
             position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
             cursor: pointer;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: transform 0.5s ease;
         }
-        .real-envelope:hover {
-            transform: scale(1.03);
-        }
-        /* غطاء الظرف */
-        .envelope-flap {
+
+        /* الزخرفة الجانبية للظرف مثل الصورة */
+        .royal-envelope::before {
+            content: '';
             position: absolute;
-            top: 0; left: 0; width: 0; height: 0;
-            border-left: 160px solid transparent;
-            border-right: 160px solid transparent;
-            border-top: 120px solid #dcd4c3;
-            transform-origin: top;
-            transition: transform 0.6s ease;
-            z-index: 3;
+            inset: 10px;
+            border: 1px dashed rgba(212, 175, 55, 0.3);
+            background-image: radial-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px);
+            background-size: 15px 15px;
+            pointer-events: none;
         }
-        /* الختم الشمعي */
-        .wax-seal {
-            width: 60px;
-            height: 60px;
-            background: #a32d2d;
+
+        /* طيات الظرف الأربعة المتداخلة */
+        .flap-left, .flap-right, .flap-top, .flap-bottom {
+            position: absolute;
+            background: #18221b;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
+        }
+        .flap-left {
+            top: 0; left: 0; width: 50%; height: 100%;
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
+            transform-origin: left;
+        }
+        .flap-right {
+            top: 0; right: 0; width: 50%; height: 100%;
+            clip-path: polygon(100% 0, 0 50%, 100% 100%);
+            transform-origin: right;
+        }
+        .flap-top {
+            top: 0; left: 0; width: 100%; height: 50%;
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top;
+        }
+        .flap-bottom {
+            bottom: 0; left: 0; width: 100%; height: 50%;
+            clip-path: polygon(0 100%, 50% 0, 100% 100%);
+            transform-origin: bottom;
+        }
+
+        /* الزخرفة الوسطية تماماً مثل الصورة */
+        .center-ornament {
+            position: absolute;
+            top: 60px;
+            width: 80px;
+            height: 120px;
+            background: url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=200&q=80') center/cover;
+            opacity: 0.7;
+            border: 1px solid var(--gold);
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* الختم الشمعي الفخم في المنتصف */
+        .wax-seal-royal {
+            width: 85px;
+            height: 85px;
+            background: #e8dcc4;
             border-radius: 50%;
             position: absolute;
-            top: 90px;
-            z-index: 4;
+            z-index: 5;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.3);
-            border: 2px dashed #7a1f1f;
-            color: #f3e5ab;
-            font-family: 'Amiri', serif;
-            font-size: 1.2rem;
-            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.6), inset 0 2px 5px rgba(255,255,255,0.8);
+            border: 3px double #b89753;
+            color: #2c2416;
+            font-family: 'Alex Brush', cursive;
+            font-size: 2.2rem;
+            transition: transform 0.3s ease;
         }
-        .envelope-instruction {
+        .royal-envelope:hover .wax-seal-royal {
+            transform: scale(1.08);
+        }
+
+        .open-instruction {
             position: absolute;
-            bottom: -50px;
+            bottom: 25px;
             width: 100%;
             text-align: center;
-            color: #d4af37;
+            color: var(--gold);
             font-family: 'Amiri', serif;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            z-index: 5;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+            animation: pulse 2s infinite;
         }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* تفكك الطيات عند الضغط */
+        .royal-envelope.open .flap-left { transform: translateX(-100%) rotateY(-90deg); opacity: 0; }
+        .royal-envelope.open .flap-right { transform: translateX(100%) rotateY(90deg); opacity: 0; }
+        .royal-envelope.open .flap-top { transform: translateY(-100%) rotateX(90deg); opacity: 0; }
+        .royal-envelope.open .flap-bottom { transform: translateY(100%) rotateX(-90deg); opacity: 0; }
+        .royal-envelope.open .wax-seal-royal, .royal-envelope.open .center-ornament, .royal-envelope.open .open-instruction { transform: scale(0); opacity: 0; transition: 0.5s; }
 
         /* بطاقة الدعوة الرئيسية */
         .invitation-card {
@@ -156,7 +216,7 @@
             padding: 5px 20px 30px 20px;
         }
 
-        /* الآية القرآنية في الأعلى ومتوسطة الصفحة */
+        /* الآية القرآنية في الأعلى وبمنتصف الصفحة */
         .quran-verse-top {
             font-family: 'Amiri', serif;
             font-size: 0.85rem;
@@ -205,7 +265,7 @@
             margin-bottom: 6px;
         }
 
-        /* أسماء العرسان بخط ناعم راقي مع تأثير التغبيش السري */
+        /* أسماء العرسان وعليها تغبيش يتم كشفه بالضغط */
         .names-area {
             font-family: 'Alex Brush', cursive, serif;
             font-size: 3.2rem;
@@ -301,12 +361,17 @@
     <div class="butterfly"></div>
     <div class="butterfly"></div>
 
-    <!-- شاشة الظرف الحقيقي مع الختم الشمعي -->
-    <div id="envelope-screen" onclick="openEnvelope()">
-        <div class="real-envelope">
-            <div class="envelope-flap" id="envFlap"></div>
-            <div class="wax-seal">ع&ف</div>
-            <div class="envelope-instruction">اضغط لفتح الرسالة 💌</div>
+    <!-- شاشة الظرف الملكي المطابق للصورة -->
+    <div id="envelope-screen">
+        <div class="royal-envelope" id="royalEnv" onclick="openRoyalEnvelope()">
+            <div class="center-ornament"></div>
+            <div class="flap-left"></div>
+            <div class="flap-right"></div>
+            <div class="flap-top"></div>
+            <div class="flap-bottom"></div>
+            
+            <div class="wax-seal-royal">A&F</div>
+            <div class="open-instruction">انقر لفتح الدعوة الملكية 💌</div>
         </div>
     </div>
 
@@ -358,24 +423,23 @@
     </div>
 
     <script>
-        function openEnvelope() {
-            const flap = document.getElementById('envFlap');
-            const envScreen = document.getElementById('envelope-screen');
+        function openRoyalEnvelope() {
+            const env = document.getElementById('royalEnv');
+            const screen = document.getElementById('envelope-screen');
             const card = document.getElementById('invCard');
 
-            // حركة فتح الظرف
-            flap.style.transform = 'rotateX(180deg)';
-            
+            env.classList.add('open');
+
             setTimeout(() => {
-                envScreen.style.opacity = '0';
+                screen.style.opacity = '0';
                 setTimeout(() => {
-                    envScreen.style.display = 'none';
+                    screen.style.display = 'none';
                     card.style.display = 'block';
                     setTimeout(() => {
                         card.classList.add('show');
                     }, 50);
                 }, 800);
-            }, 500);
+            }, 700);
         }
 
         function revealNames() {
