@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دعوة خطوبة - أمير & فاطمة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&family=Alex+Brush&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&family=Aref+Ruqaa:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-cream: #f4efe6;
@@ -38,10 +38,10 @@
             z-index: 1;
             pointer-events: none;
         }
-        .butterfly:nth-child(1) { top: 10%; left: 10%; animation-duration: 10s; animation-delay: 0s; }
-        .butterfly:nth-child(2) { top: 75%; left: 80%; animation-duration: 12s; animation-delay: 2s; }
-        .butterfly:nth-child(3) { top: 40%; left: 85%; animation-duration: 11s; animation-delay: 1s; }
-        .butterfly:nth-child(4) { top: 80%; left: 15%; animation-duration: 9s; animation-delay: 3s; }
+        .butterfly:nth-child(2) { top: 10%; left: 10%; animation-duration: 10s; animation-delay: 0s; }
+        .butterfly:nth-child(3) { top: 75%; left: 80%; animation-duration: 12s; animation-delay: 2s; }
+        .butterfly:nth-child(4) { top: 40%; left: 85%; animation-duration: 11s; animation-delay: 1s; }
+        .butterfly:nth-child(5) { top: 80%; left: 15%; animation-duration: 9s; animation-delay: 3s; }
 
         @keyframes fly {
             0% { transform: translateY(0) translateX(0) rotate(0deg) scale(0.8); opacity: 0.2; }
@@ -49,297 +49,258 @@
             100% { transform: translateY(-200px) translateX(-30px) rotate(90deg) scale(0.6); opacity: 0; }
         }
 
-        /* شاشة الظرف المطابق للصورة تماماً (ورق ورد بارز مع ختم شمعي أبيض) */
-        #envelope-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #e6dfd3;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-            transition: opacity 1s ease;
-        }
-        
-        .floral-envelope {
-            width: 340px;
-            height: 500px;
-            /* خلفية مستوحاة من نسيج الورق والورد البارز بالصورة */
-            background: #f0ebe1 url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80') center/cover;
-            border: 2px solid #d4cbb8;
-            border-radius: 10px;
-            position: relative;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-            cursor: pointer;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        /* ===== شاشة الافتتاحية: ظرف ورق خشن + ختم شمعي عنابي ===== */
+        #envelope-screen { position: fixed; inset: 0; background: #e6e1d4; z-index: 999; transition: opacity 1s ease; }
+        .floral-envelope { position: absolute; inset: 0; cursor: pointer; overflow: hidden; -webkit-tap-highlight-color: transparent; }
 
-        /* طيات الظرف الأربعة المتداخلة */
-        .flap {
+        .flap-wrap {
+            position: absolute; inset: 0; z-index: 3;
+            filter: drop-shadow(0 1px 1.5px rgba(95, 80, 55, 0.45));
+            transition: transform 1.3s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        .flap-top { z-index: 4; filter: drop-shadow(0 3px 5px rgba(95, 80, 55, 0.35)); }
+        .flap { position: absolute; inset: 0; }
+        .flap svg { position: absolute; display: block; }
+        .flap::after { content: ''; position: absolute; inset: 0; pointer-events: none; }
+
+        .flap-top .flap    { clip-path: polygon(0 0, 100% 0, 100% 25%, 50% 51%, 0 25%); }
+        .flap-left .flap   { clip-path: polygon(0 25%, 50% 51%, 0 59%); }
+        .flap-right .flap  { clip-path: polygon(100% 25%, 50% 51%, 100% 59%); }
+        .flap-bottom .flap { clip-path: polygon(0 59%, 50% 51%, 100% 59%, 100% 100%, 0 100%); }
+
+        .flap-top svg    { left: 0; top: 0; width: 100%; height: 52%; }
+        .flap-left svg   { left: 0; top: 24%; width: 52%; height: 36%; }
+        .flap-right svg  { right: 0; top: 24%; width: 52%; height: 36%; }
+        .flap-bottom svg { left: 0; top: 50%; width: 100%; height: 50%; }
+
+        .flap-top .flap::after    { background: linear-gradient(to bottom, rgba(255,255,255,0.06), rgba(120,105,80,0.12)); }
+        .flap-left .flap::after   { background: linear-gradient(to right, rgba(255,255,255,0.30), rgba(255,255,255,0.05)); }
+        .flap-right .flap::after  { background: linear-gradient(to left, rgba(255,255,255,0.18), rgba(255,255,255,0.04)); }
+        .flap-bottom .flap::after { background: radial-gradient(ellipse at 50% 15%, rgba(255,255,255,0.20), rgba(130,115,90,0.07) 70%); }
+
+        .edge-line { position: absolute; left: 0; right: 0; bottom: 0; height: 7px; background: linear-gradient(#5a1d2a, #3f1320); z-index: 2; }
+
+        /* الختم الشمعي العنابي */
+        .wax-seal {
             position: absolute;
-            background: #e8e2d5;
-            border: 1px solid rgba(180, 165, 140, 0.4);
-            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
-            z-index: 3;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
+            top: 51.5%; left: 50%;
+            width: clamp(124px, 36vw, 200px);
+            aspect-ratio: 1;
+            transform: translate(-50%, -50%);
+            z-index: 6;
+            border-radius: 49% 51% 50% 50% / 51% 49% 51% 49%;
+            background: radial-gradient(circle at 34% 28%, #9a4452 0%, #6f2431 55%, #531a26 100%);
+            box-shadow:
+                0 9px 20px rgba(60, 30, 25, 0.38),
+                0 2px 4px rgba(60, 30, 25, 0.4),
+                inset 2px 3px 5px rgba(255, 205, 205, 0.4),
+                inset -3px -4px 7px rgba(35, 5, 15, 0.55);
+            transition: transform 0.35s ease, opacity 0.6s ease;
         }
-        .flap-top { top: 0; left: 0; width: 100%; height: 50%; clip-path: polygon(0 0, 50% 100%, 100% 0); transform-origin: top; }
-        .flap-bottom { bottom: 0; left: 0; width: 100%; height: 50%; clip-path: polygon(0 100%, 50% 0, 100% 100%); transform-origin: bottom; }
-        .flap-left { top: 0; left: 0; width: 50%; height: 100%; clip-path: polygon(0 0, 100% 50%, 0 100%); transform-origin: left; }
-        .flap-right { top: 0; right: 0; width: 50%; height: 100%; clip-path: polygon(100% 0, 0 50%, 100% 100%); transform-origin: right; }
-
-        /* الختم الشمعي الأبيض الراقي في المنتصف مثل الصورة */
-        .white-wax-seal {
-            width: 85px;
-            height: 85px;
-            background: #fbf9f4;
+        .wax-seal::before {
+            content: '';
+            position: absolute; inset: 9%;
             border-radius: 50%;
-            position: absolute;
-            z-index: 6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,1);
-            border: 2px solid #e2dac9;
-            color: #7a705e;
-            font-size: 1.8rem;
-            transition: transform 0.3s ease;
+            background: radial-gradient(circle at 38% 30%, #d19aa0 0%, #b5707a 45%, #9b5360 100%);
+            box-shadow: inset 2px 3px 6px rgba(70, 15, 30, 0.5), inset -2px -2px 5px rgba(255, 225, 225, 0.35);
         }
-        .floral-envelope:hover .white-wax-seal {
-            transform: scale(1.06);
-        }
+        .wax-seal svg { position: absolute; left: 9%; top: 9%; width: 82%; height: 82%; }
+        .floral-envelope:hover .wax-seal { transform: translate(-50%, -50%) scale(1.04); }
 
-        .open-hint {
-            position: absolute;
-            bottom: 25px;
-            width: 100%;
-            text-align: center;
-            color: #6b5f4c;
-            font-family: 'Amiri', serif;
-            font-size: 0.95rem;
-            letter-spacing: 1px;
-            z-index: 6;
-            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
-            animation: pulse 2s infinite;
-        }
+        /* تفاعل الفتح: الطيّات تنفتح للخارج */
+        .floral-envelope.open .flap-top    { transform: translateY(-105%); }
+        .floral-envelope.open .flap-bottom { transform: translateY(105%); }
+        .floral-envelope.open .flap-left   { transform: translateX(-105%); }
+        .floral-envelope.open .flap-right  { transform: translateX(105%); }
+        .floral-envelope.open .wax-seal { transform: translate(-50%, -50%) scale(1.2); opacity: 0; }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
-        }
+        @media (prefers-reduced-motion: reduce) { .flap-wrap { transition-duration: 0.01s; } }
 
-        /* تفاعل الفتح */
-        .floral-envelope.open .flap-top { transform: translateY(-100%) rotateX(90deg); opacity: 0; }
-        .floral-envelope.open .flap-bottom { transform: translateY(100%) rotateX(-90deg); opacity: 0; }
-        .floral-envelope.open .flap-left { transform: translateX(-100%) rotateY(-90deg); opacity: 0; }
-        .floral-envelope.open .flap-right { transform: translateX(100%) rotateY(90deg); opacity: 0; }
-        .floral-envelope.open .white-wax-seal, .floral-envelope.open .open-hint { transform: scale(0); opacity: 0; transition: 0.5s; }
-
-        /* بطاقة الدعوة الرئيسية */
+        /* بطاقة الدعوة الرئيسية - ثيم الإطار الزخرفي */
+        :root { --orange: #c4471c; --teal: #3b9aa3; --goldline: #d9a93f; }
         .invitation-card {
             width: 100%;
             max-width: 450px;
-            background: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            background: #fffefb;
+            border-radius: 4px;
+            box-shadow: 0 12px 34px rgba(60, 45, 25, 0.2);
             overflow: hidden;
             text-align: center;
             position: relative;
-            border: 1px solid #eae5de;
             opacity: 0;
-            transform: scale(0.9);
+            transform: scale(0.92);
             transition: all 0.8s ease;
             display: none;
             z-index: 10;
+            padding: 92px 50px;
         }
-        .invitation-card.show {
-            opacity: 1;
-            transform: scale(1);
-        }
+        .invitation-card.show { opacity: 1; transform: scale(1); }
 
-        .header-chandelier {
-            width: 100%;
-            height: 100px;
-            background: url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=600&q=80') center/cover no-repeat;
-            position: relative;
-        }
-        .header-chandelier::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 30px;
-            background: linear-gradient(to top, #ffffff, transparent);
-        }
+        /* الإطار */
+        .band { position: absolute; z-index: 1; pointer-events: none; }
+        .band svg { width: 100%; height: 100%; display: block; }
+        .band-top { top: 0; left: 0; right: 0; height: 34px; }
+        .band-bottom { bottom: 0; left: 0; right: 0; height: 34px; }
+        .band-left { top: 0; bottom: 0; left: 0; width: 34px; }
+        .band-right { top: 0; bottom: 0; right: 0; width: 34px; }
+        .gold-outer { position: absolute; inset: 0; border: 2px solid var(--goldline); z-index: 2; pointer-events: none; }
+        .gold-inner { position: absolute; inset: 34px; border: 1.5px solid var(--goldline); z-index: 2; pointer-events: none; }
+        .gold-dots { position: absolute; inset: 39px; border: 2px dotted #e6c272; z-index: 2; pointer-events: none; }
+        .arch { position: absolute; left: 50%; width: 84%; height: auto; aspect-ratio: 400 / 90; z-index: 3; pointer-events: none; }
+        .arch-top { top: 0; transform: translateX(-50%); }
+        .arch-bottom { bottom: 0; transform: translateX(-50%) scaleY(-1); }
 
-        .content-body {
-            padding: 5px 20px 30px 20px;
-        }
+        .content-body { position: relative; z-index: 4; font-family: 'Amiri', serif; }
 
-        .quran-verse-top {
-            font-family: 'Amiri', serif;
-            font-size: 0.85rem;
-            color: #554a3e;
-            background: #faf7f2;
-            border: 1px solid rgba(184, 151, 83, 0.3);
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            line-height: 1.7;
-            text-align: center;
-        }
-
-        .inv-title {
-            font-family: 'Amiri', serif;
-            font-size: 1.7rem;
-            color: var(--gold);
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        .inv-verse {
-            font-family: 'Amiri', serif;
-            font-size: 0.88rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 12px;
-        }
-
+        /* الخط */
+        .bismillah { font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--orange); margin-bottom: 10px; }
+        .quran-verse-top { font-family: 'Amiri', serif; font-size: 0.9rem; color: #2b2b2b; line-height: 1.9; margin-bottom: 8px; }
+        .big-verse { font-family: 'Amiri', serif; font-size: 1.9rem; color: var(--orange); line-height: 1.5; margin-bottom: 14px; }
+        .inv-title { font-family: 'Amiri', serif; font-size: 2.7rem; font-weight: 700; color: var(--orange); line-height: 1.3; margin-bottom: 8px; }
+        .inv-verse { font-family: 'Amiri', serif; font-size: 0.9rem; color: #444; line-height: 1.8; margin-bottom: 12px; }
         .parents-section {
             font-family: 'Amiri', serif;
-            font-size: 1rem;
-            color: #444;
+            font-size: 1.15rem;
+            color: #1f1f1f;
             margin-bottom: 10px;
-            font-weight: 600;
-            background: #faf8f5;
-            padding: 8px;
-            border-radius: 8px;
             display: flex;
             justify-content: space-around;
             align-items: center;
         }
+        .parents-section .orn { color: var(--orange); }
+        .invitation-to { font-family: 'Amiri', serif; font-size: 1.05rem; color: #333; margin-bottom: 4px; }
 
-        .invitation-to {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-        }
-
-        /* أسماء العرسان مع التغبيش السري */
         .names-area {
-            font-family: 'Alex Brush', cursive, serif;
-            font-size: 3.2rem;
-            color: var(--gold);
-            margin: 5px 0;
+            font-family: 'Aref Ruqaa', serif;
+            font-size: 3rem;
+            color: var(--orange);
+            margin: 4px 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px;
+            gap: 14px;
             filter: blur(8px);
             transition: filter 1s ease;
             cursor: pointer;
+            line-height: 1.5;
         }
-        .names-area.revealed {
-            filter: blur(0);
-        }
-        .names-area span {
-            color: #444;
-            font-size: 2rem;
-            font-family: 'Amiri', serif;
-        }
-        .reveal-hint {
-            font-size: 0.75rem;
-            color: #a32d2d;
-            margin-bottom: 10px;
-            cursor: pointer;
-            font-weight: 600;
-        }
+        .names-area.revealed { filter: blur(0); }
+        .names-area span { color: #1f1f1f; font-size: 2rem; }
+        .reveal-hint { font-size: 0.8rem; color: var(--orange); margin-bottom: 10px; cursor: pointer; font-weight: 600; }
 
-        .welcome-phrase {
-            font-family: 'Amiri', serif;
-            font-size: 1rem;
-            color: var(--gold);
-            margin-bottom: 12px;
-            font-style: italic;
-        }
+        .welcome-phrase { font-family: 'Amiri', serif; font-size: 1.15rem; color: var(--orange); margin-bottom: 12px; }
 
         .date-location-box {
-            background: #faf8f5;
-            border: 1px solid rgba(184, 151, 83, 0.3);
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: var(--text-main);
-        }
-        .date-location-box span {
-            display: block;
-            color: var(--gold);
-            font-weight: 700;
-            margin-top: 3px;
-        }
-
-        /* تنسيق العداد التنازلي تحت التاريخ والموقع */
-        .countdown-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-        .countdown-box {
-            background: #faf8f5;
-            border: 1px solid rgba(184, 151, 83, 0.25);
-            border-radius: 8px;
-            padding: 8px 4px;
-            text-align: center;
-        }
-        .countdown-number {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--gold);
+            border-top: 1px solid rgba(217, 169, 63, 0.6);
+            border-bottom: 1px solid rgba(217, 169, 63, 0.6);
+            padding: 10px 6px;
+            margin-bottom: 14px;
             font-family: 'Amiri', serif;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #1f1f1f;
         }
-        .countdown-label {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
+        .date-location-box span { display: block; color: var(--orange); font-weight: 700; }
 
-        .couple-image-container {
-            width: 100%;
-            margin-top: 8px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        .couple-image-container img {
-            width: 100%;
-            display: block;
-        }
+        .countdown-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
+        .countdown-box { border: 1px solid rgba(217, 169, 63, 0.6); border-radius: 6px; padding: 8px 4px; text-align: center; background: #fffdf6; }
+        .countdown-number { font-size: 1.15rem; font-weight: 700; color: var(--orange); font-family: 'Amiri', serif; }
+        .countdown-label { font-size: 0.65rem; color: #666; margin-top: 2px; }
+
+        .couple-image-container { width: 100%; margin-top: 6px; border: 2px solid var(--goldline); padding: 3px; background: #fff; }
+        .couple-image-container img { width: 100%; display: block; }
 
         .btn-calendar {
             display: block;
             width: 100%;
-            background: var(--gold);
+            background: var(--teal);
             color: #fff;
             border: none;
             padding: 11px;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            font-weight: 600;
+            border-radius: 8px;
+            font-family: 'Amiri', serif;
+            font-size: 1.05rem;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 14px;
             transition: 0.2s;
-            text-decoration: none;
-            box-shadow: 0 4px 10px rgba(184, 151, 83, 0.2);
+            box-shadow: 0 4px 10px rgba(59, 154, 163, 0.25);
         }
-        .btn-calendar:hover {
-            background: #a28246;
-        }
+        .btn-calendar:hover { background: #2f8189; }
     </style>
 </head>
 <body>
+
+    <!-- نسيج الورق الخشن للظرف -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <filter id="pfxTop" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+                <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" seed="7" result="fine"/>
+                <feDiffuseLighting in="fine" surfaceScale="2.4" diffuseConstant="1.18" lighting-color="#ece7da" result="lit"><feDistantLight azimuth="235" elevation="62"/></feDiffuseLighting>
+                <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="3" seed="12" result="big"/>
+                <feColorMatrix in="big" type="matrix" values="0 0 0 0 .58  0 0 0 0 .52  0 0 0 0 .40  0 0 0 .55 -.12" result="mottle"/>
+                <feComposite in="mottle" in2="lit" operator="over"/>
+            </filter>
+            <filter id="pfxSide" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+                <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" seed="13" result="fine"/>
+                <feDiffuseLighting in="fine" surfaceScale="2.4" diffuseConstant="1.18" lighting-color="#f3f0e7" result="lit"><feDistantLight azimuth="235" elevation="62"/></feDiffuseLighting>
+                <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="3" seed="18" result="big"/>
+                <feColorMatrix in="big" type="matrix" values="0 0 0 0 .58  0 0 0 0 .52  0 0 0 0 .40  0 0 0 .55 -.12" result="mottle"/>
+                <feComposite in="mottle" in2="lit" operator="over"/>
+            </filter>
+            <filter id="pfxBottom" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+                <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" seed="21" result="fine"/>
+                <feDiffuseLighting in="fine" surfaceScale="2.4" diffuseConstant="1.18" lighting-color="#ebe6d9" result="lit"><feDistantLight azimuth="235" elevation="62"/></feDiffuseLighting>
+                <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="3" seed="26" result="big"/>
+                <feColorMatrix in="big" type="matrix" values="0 0 0 0 .58  0 0 0 0 .52  0 0 0 0 .40  0 0 0 .55 -.12" result="mottle"/>
+                <feComposite in="mottle" in2="lit" operator="over"/>
+            </filter>
+            
+        </defs>
+    </svg>
+
+    <!-- زخرفة الإطار: ورد ملون + قوس تركوازي -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <g id="fl5">
+                <g fill="currentColor">
+                    <circle cx="0" cy="-4.2" r="3.4"/><circle cx="4" cy="-1.3" r="3.4"/><circle cx="2.5" cy="3.4" r="3.4"/>
+                    <circle cx="-2.5" cy="3.4" r="3.4"/><circle cx="-4" cy="-1.3" r="3.4"/>
+                </g>
+                <circle r="2" fill="#f2b631"/>
+            </g>
+            <g id="tile">
+                <rect width="68" height="34" fill="#fffefb"/>
+                <path d="M0 17 C10 4 22 4 34 17 S58 30 68 17" fill="none" stroke="#d9a93f" stroke-width="1.1"/>
+                <path d="M0 17 C10 30 22 30 34 17 S58 4 68 17" fill="none" stroke="#a9c08f" stroke-width="1"/>
+                <ellipse cx="22" cy="7" rx="4.2" ry="1.8" fill="#9db98a" transform="rotate(-30 22 7)"/>
+                <ellipse cx="46" cy="27" rx="4.2" ry="1.8" fill="#9db98a" transform="rotate(-30 46 27)"/>
+                <ellipse cx="60" cy="9" rx="3.6" ry="1.6" fill="#9db98a" transform="rotate(35 60 9)"/>
+                <ellipse cx="8" cy="26" rx="3.6" ry="1.6" fill="#9db98a" transform="rotate(35 8 26)"/>
+                <use href="#fl5" transform="translate(14 17) scale(1.25)" style="color:#6fa3c9"/>
+                <use href="#fl5" transform="translate(36 8) scale(0.85)" style="color:#e8935f"/>
+                <use href="#fl5" transform="translate(52 25) scale(0.95)" style="color:#f0aaa5"/>
+                <use href="#fl5" transform="translate(54 9) scale(0.5)" style="color:#9a8fc9"/>
+                <use href="#fl5" transform="translate(30 28) scale(0.5)" style="color:#7fb0d4"/>
+                <circle cx="66" cy="22" r="1.4" fill="#e8935f"/><circle cx="3" cy="9" r="1.4" fill="#f0aaa5"/>
+            </g>
+            <pattern id="bandH" width="68" height="34" patternUnits="userSpaceOnUse"><use href="#tile"/></pattern>
+            <pattern id="bandV" width="68" height="34" patternUnits="userSpaceOnUse" patternTransform="rotate(90)"><use href="#tile"/></pattern>
+
+            <g id="archShape">
+                <path id="archPath" fill="none" d="M-5 62 C20 62 50 52 80 48 C115 44 125 22 155 24 C175 25 188 16 200 8 C212 16 225 25 245 24 C275 22 285 44 320 48 C350 52 380 62 405 62"/>
+                <use href="#archPath" stroke="#d9a93f" stroke-width="25"/>
+                <use href="#archPath" stroke="#3b9aa3" stroke-width="21"/>
+                <use href="#archPath" stroke="#ecc97a" stroke-width="1.4" stroke-dasharray="1 5" stroke-linecap="round"/>
+                <path d="M200 0 C193 8 193 15 200 24 C207 15 207 8 200 0Z" fill="#d9a93f"/>
+                <use href="#fl5" transform="translate(100 46) scale(0.9)" style="color:#f6c9c4"/>
+                <use href="#fl5" transform="translate(155 24) scale(0.8)" style="color:#f4b58f"/>
+                <use href="#fl5" transform="translate(245 24) scale(0.8)" style="color:#f4b58f"/>
+                <use href="#fl5" transform="translate(300 46) scale(0.9)" style="color:#f6c9c4"/>
+                <use href="#fl5" transform="translate(50 56) scale(0.7)" style="color:#bcdde0"/>
+                <use href="#fl5" transform="translate(350 56) scale(0.7)" style="color:#bcdde0"/>
+            </g>
+        </defs>
+    </svg>
 
     <!-- فراشات متحركة بالخلفية -->
     <div class="butterfly"></div>
@@ -347,77 +308,142 @@
     <div class="butterfly"></div>
     <div class="butterfly"></div>
 
-    <!-- شاشة الظرف الكلاسيكي المطابق للصورة تماماً -->
+    <!-- شاشة الافتتاحية -->
     <div id="envelope-screen">
         <div class="floral-envelope" id="floralEnv" onclick="openFloralEnvelope()">
-            <div class="flap flap-top"></div>
-            <div class="flap flap-bottom"></div>
-            <div class="flap flap-left"></div>
-            <div class="flap flap-right"></div>
+            <div class="flap-wrap flap-bottom"><div class="flap"><svg aria-hidden="true"><rect width="100%" height="100%" filter="url(#pfxBottom)"/></svg><div class="edge-line"></div></div></div>
+            <div class="flap-wrap flap-left"><div class="flap"><svg aria-hidden="true"><rect width="100%" height="100%" filter="url(#pfxSide)"/></svg></div></div>
+            <div class="flap-wrap flap-right"><div class="flap"><svg aria-hidden="true"><rect width="100%" height="100%" filter="url(#pfxSide)"/></svg></div></div>
+            <div class="flap-wrap flap-top"><div class="flap"><svg aria-hidden="true"><rect width="100%" height="100%" filter="url(#pfxTop)"/></svg></div></div>
             
-            <div class="white-wax-seal">🌿</div>
-            <div class="open-hint">انقر لفتح الدعوة 💌</div>
+            <!-- الختم الشمعي العنابي مع حرفي العروسين -->
+            <div class="wax-seal">
+                <svg viewBox="0 0 100 100" direction="ltr" aria-hidden="true">
+                    <g font-family="'Great Vibes','Snell Roundhand',cursive" font-size="66" text-anchor="middle">
+                        <g fill="#efc9cd" opacity="0.6" transform="translate(-0.9 -0.9)"><text x="37" y="68">A</text><text x="63" y="72">F</text></g>
+                        <g fill="#7a2536"><text x="37" y="68">A</text><text x="63" y="72">F</text></g>
+                    </g>
+                </svg>
+            </div>
         </div>
     </div>
 
     <!-- بطاقة الدعوة الرئيسية -->
     <div class="invitation-card" id="invCard">
-        <div class="header-chandelier"></div>
+
+        <!-- الإطار الزخرفي -->
+        <div class="band band-top"><svg aria-hidden="true"><rect width="100%" height="100%" fill="url(#bandH)"/></svg></div>
+        <div class="band band-bottom"><svg aria-hidden="true"><rect width="100%" height="100%" fill="url(#bandH)"/></svg></div>
+        <div class="band band-left"><svg aria-hidden="true"><rect width="100%" height="100%" fill="url(#bandV)"/></svg></div>
+        <div class="band band-right"><svg aria-hidden="true"><rect width="100%" height="100%" fill="url(#bandV)"/></svg></div>
+        <div class="gold-outer"></div><div class="gold-inner"></div><div class="gold-dots"></div>
+        <svg class="arch arch-top" viewBox="0 0 400 90" aria-hidden="true"><use href="#archShape"/></svg>
+        <svg class="arch arch-bottom" viewBox="0 0 400 90" aria-hidden="true"><use href="#archShape"/></svg>
 
         <div class="content-body">
-            
+
+            <div class="bismillah">بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ</div>
+
             <div class="quran-verse-top">
-                ﴿ وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ﴾
+                وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
             </div>
 
-            <div class="inv-title">دَعوةُ خُطوبة</div>
-            
+                        <div class="inv-title">دَعوةُ خُطوبة</div>
+
             <p class="inv-verse">
                 في العمر أيام يزينها السرور، وسرور هذا اليوم مختلف لحظات الفرح. اخترنا من العمر موعداً بكل حب ومودة لنتشرف بدعوتكم.
             </p>
 
             <div class="parents-section">
                 <span>السيد ياسر</span>
-                <span style="color: var(--gold);">❖</span>
+                <span class="orn">❖</span>
                 <span>السيد انمار</span>
             </div>
 
             <div class="invitation-to">لحضور ليلة من أجمل ليالي العمر حفل خطوبـة أبنائهما</div>
 
             <div class="names-area" id="namesArea" onclick="revealNames()" title="اضغط لإزالة التغبيش">
-                Ameer <span>&</span> Fatima
+                أمير <span>,</span> فاطمة
             </div>
             <div class="reveal-hint" id="revealHint" onclick="revealNames()">✨ اضغط هنا لكشف الأسماء ✨</div>
 
             <div class="welcome-phrase">أهلاً بك شريكاً للعمر وحبيباً للقلب</div>
 
             <div class="date-location-box">
-                📅 <strong>السبت، ٢٨ نوفمبر ٢٠٢٦ - الساعة ٤:٠٠ عصراً</strong>
-                <span>📍 بغداد - الكاظمية | منتجع العبسلي</span>
+                السبت، ٢٨ نوفمبر ٢٠٢٦ - الساعة ٤:٠٠ عصراً
+                <span>بغداد - الكاظمية | منتجع العبسلي</span>
             </div>
 
-            <!-- العداد التنازلي تحت التاريخ والموقع مباشرة -->
             <div class="countdown-container">
-                <div class="countdown-box">
-                    <div class="countdown-number" id="days">--</div>
-                    <div class="countdown-label">يوم</div>
-                </div>
-                <div class="countdown-box">
-                    <div class="countdown-number" id="hours">--</div>
-                    <div class="countdown-label">ساعة</div>
-                </div>
-                <div class="countdown-box">
-                    <div class="countdown-number" id="minutes">--</div>
-                    <div class="countdown-label">دقيقة</div>
-                </div>
-                <div class="countdown-box">
-                    <div class="countdown-number" id="seconds">--</div>
-                    <div class="countdown-label">ثانية</div>
-                </div>
+                <div class="countdown-box"><div class="countdown-number" id="days">--</div><div class="countdown-label">يوم</div></div>
+                <div class="countdown-box"><div class="countdown-number" id="hours">--</div><div class="countdown-label">ساعة</div></div>
+                <div class="countdown-box"><div class="countdown-number" id="minutes">--</div><div class="countdown-label">دقيقة</div></div>
+                <div class="countdown-box"><div class="countdown-number" id="seconds">--</div><div class="countdown-label">ثانية</div></div>
             </div>
 
             <div class="couple-image-container">
-                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80" alt="صورة العروسين">
+                <svg viewBox="0 0 400 300" role="img" aria-label="رسم لعقد قران" style="width:100%;display:block">
+                    <defs>
+                        <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdf3dc"/><stop offset="1" stop-color="#e3f0ee"/></linearGradient>
+                        <radialGradient id="glowG"><stop offset="0" stop-color="#f6d36a" stop-opacity="0.55"/><stop offset="1" stop-color="#f6d36a" stop-opacity="0"/></radialGradient>
+                        <g id="lantern">
+                            <circle cx="0" cy="38" r="24" fill="url(#glowG)"/>
+                            <path d="M0 0 V16" stroke="#b8902f" stroke-width="1.5"/>
+                            <path d="M-9 20 H9 L5 15 H-5Z" fill="#b8902f"/>
+                            <path d="M-8 20 H8 Q14 36 8 54 H-8 Q-14 36 -8 20Z" fill="#f2b631" stroke="#b8902f" stroke-width="1.5"/>
+                            <path d="M-5 24 Q-8 36 -5 50 M5 24 Q8 36 5 50" stroke="#fff3c4" stroke-width="1.2" fill="none"/>
+                            <path d="M-9 54 H9 L6 59 H-6Z" fill="#b8902f"/>
+                            <path d="M0 59 V68" stroke="#b8902f" stroke-width="1.5"/>
+                            <circle cx="0" cy="70" r="2.2" fill="#c4471c"/>
+                        </g>
+                        <path id="star" d="M0 -7 L1.8 -1.8 L7 0 L1.8 1.8 L0 7 L-1.8 1.8 L-7 0 L-1.8 -1.8Z"/>
+                        <g id="bush">
+                            <ellipse cx="66" cy="248" rx="34" ry="22" fill="#a7c796"/><ellipse cx="94" cy="254" rx="26" ry="16" fill="#8fb87f"/>
+                            <circle cx="56" cy="240" r="5" fill="#f0aaa5"/><circle cx="74" cy="233" r="5" fill="#e8935f"/><circle cx="85" cy="248" r="4.5" fill="#fff"/>
+                            <circle cx="60" cy="254" r="4.5" fill="#f6c9c4"/><circle cx="98" cy="246" r="4.5" fill="#f0aaa5"/><circle cx="76" cy="250" r="3.5" fill="#e8935f"/>
+                        </g>
+                    </defs>
+                    <rect width="400" height="300" fill="#fffaf0"/>
+                    <path d="M32 290 V132 C32 70 115 32 200 32 C285 32 368 70 368 132 V290Z" fill="url(#skyG)" stroke="#3b9aa3" stroke-width="7"/>
+                    <path d="M42 290 V134 C42 78 120 42 200 42 C280 42 358 78 358 134 V290" fill="none" stroke="#d9a93f" stroke-width="1.5"/>
+                    <path d="M206 52 A18 18 0 1 0 206 88 A14 14 0 1 1 206 52Z" fill="#d9a93f"/>
+                    <use href="#star" x="244" y="64" fill="#d9a93f"/><use href="#star" x="158" y="92" fill="#d9a93f" transform="translate(158 92) scale(.7) translate(-158 -92)"/><use href="#star" x="256" y="98" fill="#d9a93f" transform="translate(256 98) scale(.55) translate(-256 -98)"/>
+                    <use href="#lantern" x="84" y="84"/><use href="#lantern" x="316" y="84"/>
+                    <path d="M42 262 C110 250 290 250 358 262 V290 H42Z" fill="#cfe4d3"/>
+                    <use href="#bush"/><use href="#bush" transform="translate(400 0) scale(-1 1)"/>
+                    <g fill="#f0aaa5"><ellipse cx="120" cy="150" rx="4" ry="2" transform="rotate(30 120 150)"/><ellipse cx="290" cy="170" rx="4" ry="2" transform="rotate(-30 290 170)"/><ellipse cx="140" cy="210" rx="4" ry="2" transform="rotate(50 140 210)"/><ellipse cx="270" cy="120" rx="4" ry="2" transform="rotate(-50 270 120)"/><ellipse cx="310" cy="220" rx="4" ry="2" transform="rotate(20 310 220)"/></g>
+
+                    <!-- العريس -->
+                    <g transform="translate(-12 0)">
+                        <ellipse cx="160" cy="266" rx="10" ry="3.5" fill="#1b1b1f"/><ellipse cx="182" cy="266" rx="10" ry="3.5" fill="#1b1b1f"/>
+                        <path d="M138 154 Q138 138 158 136 H182 Q202 138 202 154 L204 262 H136Z" fill="#27334d"/>
+                        <path d="M159 137 L170 163 L181 137Z" fill="#fff"/>
+                        <path d="M170 152 L166.5 159 L170 182 L173.5 159Z" fill="#c4471c"/>
+                        <path d="M159 137 L166 170 L156 150Z M181 137 L174 170 L184 150Z" fill="#34425f"/>
+                        <path d="M170 170 V262" stroke="#1d2740" stroke-width="1"/><circle cx="170" cy="200" r="1.6" fill="#d9a93f"/>
+                        <path d="M139 152 C131 190 138 214 148 222" stroke="#27334d" stroke-width="11" stroke-linecap="round" fill="none"/>
+                        <path d="M201 152 C209 190 202 214 192 222" stroke="#27334d" stroke-width="11" stroke-linecap="round" fill="none"/>
+                        <circle cx="148" cy="225" r="4.5" fill="#ebbf98"/><circle cx="192" cy="225" r="4.5" fill="#ebbf98"/>
+                        <rect x="165" y="127" width="10" height="12" fill="#ebbf98"/>
+                        <circle cx="170" cy="116" r="15" fill="#f0c8a4"/>
+                        <path d="M155 114 C154 98 186 98 185 114 C180 106 160 106 155 114Z" fill="#2a1f17"/>
+                    </g>
+
+                    <!-- العروس -->
+                    <g transform="translate(17 0)">
+                        <path d="M211 126 C190 172 182 232 176 268 H284 C278 232 270 172 249 126Z" fill="#f1ece0" stroke="#e1d7c2"/>
+                        <path d="M212 158 C216 148 244 148 248 158 L274 266 H186Z" fill="#fffdf8" stroke="#e3d8c4"/>
+                        <path d="M214 176 Q230 182 246 176" stroke="#d9a93f" stroke-width="3" fill="none"/>
+                        <g fill="#efe6d2"><circle cx="222" cy="210" r="1.8"/><circle cx="240" cy="214" r="1.8"/><circle cx="230" cy="232" r="1.8"/><circle cx="212" cy="240" r="1.8"/><circle cx="250" cy="240" r="1.8"/></g>
+                        <path d="M213 160 C206 182 218 194 228 192 M247 160 C254 182 242 194 232 192" stroke="#e3d8c4" stroke-width="9" stroke-linecap="round" fill="none"/>
+                        <path d="M213 160 C206 182 218 194 228 192 M247 160 C254 182 242 194 232 192" stroke="#fffdf8" stroke-width="7" stroke-linecap="round" fill="none"/>
+                        <ellipse cx="222" cy="198" rx="5" ry="2" fill="#8fb87f" transform="rotate(20 222 198)"/><ellipse cx="238" cy="198" rx="5" ry="2" fill="#8fb87f" transform="rotate(-20 238 198)"/>
+                        <circle cx="226" cy="192" r="6" fill="#f0aaa5"/><circle cx="234" cy="192" r="6" fill="#e8935f"/><circle cx="230" cy="198" r="5.5" fill="#fff" stroke="#eadcc8"/>
+                        <path d="M213 130 C211 106 249 106 247 130 C251 142 252 152 247 162 L213 162 C208 152 209 142 213 130Z" fill="#fff" stroke="#e3d8c4"/>
+                        <ellipse cx="230" cy="129" rx="9.5" ry="12" fill="#f0c8a4"/>
+                        <path d="M219 119 C224 111 236 111 241 119 C236 114 224 114 219 119Z" fill="#fff"/>
+                    </g>
+                </svg>
             </div>
 
             <button class="btn-calendar" onclick="addToCalendar()">إضافة الموعد إلى التقويم</button>
@@ -430,28 +456,26 @@
             const screen = document.getElementById('envelope-screen');
             const card = document.getElementById('invCard');
 
+            if (env.classList.contains('open')) return;
             env.classList.add('open');
 
+            // الطيّات تنفتح (1.3 ثانية) ثم تختفي الشاشة وتظهر البطاقة
             setTimeout(() => {
                 screen.style.opacity = '0';
                 setTimeout(() => {
                     screen.style.display = 'none';
                     card.style.display = 'block';
-                    setTimeout(() => {
-                        card.classList.add('show');
-                    }, 50);
+                    setTimeout(() => { card.classList.add('show'); }, 50);
                 }, 800);
-            }, 700);
+            }, 1100);
         }
 
         function revealNames() {
-            const names = document.getElementById('namesArea');
-            const hint = document.getElementById('revealHint');
-            names.classList.add('revealed');
-            hint.style.display = 'none';
+            document.getElementById('namesArea').classList.add('revealed');
+            document.getElementById('revealHint').style.display = 'none';
         }
 
-        // حساب العد التنازلي لموعد الحفل: 28 نوفمبر 2026 الساعة 4:00 عصراً
+        // العد التنازلي: 28 نوفمبر 2026 الساعة 4:00 عصراً
         const targetDate = new Date('November 28, 2026 16:00:00').getTime();
 
         function updateCountdown() {
@@ -469,10 +493,7 @@
                 document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
                 document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
             } else {
-                document.getElementById('days').innerText = '0';
-                document.getElementById('hours').innerText = '0';
-                document.getElementById('minutes').innerText = '0';
-                document.getElementById('seconds').innerText = '0';
+                ['days', 'hours', 'minutes', 'seconds'].forEach(id => document.getElementById(id).innerText = '0');
             }
         }
 
