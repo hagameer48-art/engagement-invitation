@@ -1,1 +1,161 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دعوة خطوبة - أمير & فاطمة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121814;
+            --card-bg: #1b241e;
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --text-main: #f5f5f5;
+            --text-muted: #b0b0b0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .invitation-container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--card-bg);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            padding: 40px 25px;
+            text-align: center;
+            position: relative;
+        }
+        .header-title {
+            font-family: 'Amiri', serif;
+            font-size: 1.6rem;
+            color: var(--gold-light);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        .names {
+            font-family: 'Amiri', serif;
+            font-size: 2.8rem;
+            color: var(--gold);
+            margin: 20px 0;
+            font-weight: 700;
+        }
+        .names span {
+            display: block;
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            margin: 10px 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+        .date-badge {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: inline-block;
+            font-size: 1.1rem;
+            margin: 20px 0 25px 0;
+        }
+        .countdown-title {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .countdown-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            padding: 10px 5px;
+        }
+        .countdown-number {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            font-family: 'Amiri', serif;
+        }
+        .countdown-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .btn-action {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #d4af37, #aa8c2c);
+            color: #121814;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+        .footer-note {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-container">
+        <div class="header-title">Save The Date</div>
+        <p style="font-size: 1.1rem; color: #dfdfdf;">يسعدنا جداً حضوركم ومشاركتنا فرحة خطوبتنا</p>
+        <div class="names">
+            أمير
+            <span>&</span>
+            فاطمة
+        </div>
+        <div class="date-badge">📅 الجمعة، ٢٨ نوفمبر ٢٠٢٦</div>
+        <div class="countdown-title">العد التنازلي ليلتنا</div>
+        <div class="countdown-grid">
+            <div class="countdown-box"><div class="countdown-number" id="days">--</div><div class="countdown-label">يوم</div></div>
+            <div class="countdown-box"><div class="countdown-number" id="hours">--</div><div class="countdown-label">ساعة</div></div>
+            <div class="countdown-box"><div class="countdown-number" id="minutes">--</div><div class="countdown-label">دقيقة</div></div>
+            <div class="countdown-box"><div class="countdown-number" id="seconds">--</div><div class="countdown-label">ثانية</div></div>
+        </div>
+        <button class="btn-action" onclick="addToCalendar()">إضافة إلى التقويم</button>
+        <div class="footer-note">وجودكم هو ما يكمل فرحتنا ❤️</div>
+    </div>
+    <script>
+        const targetDate = new Date('November 28, 2026 20:00:00').getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+            if (difference > 0) {
+                document.getElementById('days').innerText = Math.floor(difference / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('minutes').innerText = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('seconds').innerText = Math.floor((difference % (1000 * 60)) / 1000);
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        function addToCalendar() {
+            window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('خطوبة أمير وفاطمة')}&dates=20261128T170000Z/20261128T220000Z`, '_blank');
+        }
+    </script>
+</body>
+</html>
