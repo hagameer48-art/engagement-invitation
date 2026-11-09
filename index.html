@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دعوة خطوبة - أمير & فاطمة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700&family=Aref+Ruqaa:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Amiri+Quran&family=Tajawal:wght@300;400;500;700&family=Aref+Ruqaa:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-cream: #f4efe6;
@@ -12,6 +12,9 @@
             --text-main: #333333;
             --text-muted: #666666;
             --gold: #b89753;
+            --orange: #c4471c;
+            --teal: #3b9aa3;
+            --goldline: #d9a93f;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -38,10 +41,6 @@
             z-index: 1;
             pointer-events: none;
         }
-        .butterfly:nth-child(2) { top: 10%; left: 10%; animation-duration: 10s; animation-delay: 0s; }
-        .butterfly:nth-child(3) { top: 75%; left: 80%; animation-duration: 12s; animation-delay: 2s; }
-        .butterfly:nth-child(4) { top: 40%; left: 85%; animation-duration: 11s; animation-delay: 1s; }
-        .butterfly:nth-child(5) { top: 80%; left: 15%; animation-duration: 9s; animation-delay: 3s; }
 
         @keyframes fly {
             0% { transform: translateY(0) translateX(0) rotate(0deg) scale(0.8); opacity: 0.2; }
@@ -116,8 +115,7 @@
 
         @media (prefers-reduced-motion: reduce) { .flap-wrap { transition-duration: 0.01s; } }
 
-        /* بطاقة الدعوة الرئيسية - ثيم الإطار الزخرفي */
-        :root { --orange: #c4471c; --teal: #3b9aa3; --goldline: #d9a93f; }
+        /* بطاقة الدعوة الرئيسية */
         .invitation-card {
             width: 100%;
             max-width: 450px;
@@ -152,12 +150,24 @@
 
         .content-body { position: relative; z-index: 4; font-family: 'Amiri', serif; }
 
-        /* الخط */
         .bismillah { font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--orange); margin-bottom: 10px; }
-        .quran-verse-top { font-family: 'Amiri', serif; font-size: 0.9rem; color: #2b2b2b; line-height: 1.9; margin-bottom: 8px; }
+
+        /* آية القرآن: خط قرآني وسطرين بتعرج */
+        .quran-verse-top {
+            font-family: 'Amiri Quran', 'Amiri', serif;
+            font-size: 1.35rem;
+            color: #2b2b2b;
+            line-height: 2.1;
+            margin-bottom: 14px;
+        }
+        .quran-verse-top .qline { display: block; }
+        .quran-verse-top .qline:nth-child(1) { transform: translateX(-10px); }
+        .quran-verse-top .qline:nth-child(2) { transform: translateX(14px); color: var(--teal); }
+
         .big-verse { font-family: 'Amiri', serif; font-size: 1.9rem; color: var(--orange); line-height: 1.5; margin-bottom: 14px; }
         .inv-title { font-family: 'Amiri', serif; font-size: 2.7rem; font-weight: 700; color: var(--orange); line-height: 1.3; margin-bottom: 8px; }
         .inv-verse { font-family: 'Amiri', serif; font-size: 0.9rem; color: #444; line-height: 1.8; margin-bottom: 12px; }
+
         .parents-section {
             font-family: 'Amiri', serif;
             font-size: 1.15rem;
@@ -166,6 +176,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
+            gap: 8px;
         }
         .parents-section .orn { color: var(--orange); }
         .invitation-to { font-family: 'Amiri', serif; font-size: 1.05rem; color: #333; margin-bottom: 4px; }
@@ -178,7 +189,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 14px;
+            flex-wrap: wrap;
+            gap: 10px;
             filter: blur(8px);
             transition: filter 1s ease;
             cursor: pointer;
@@ -186,6 +198,7 @@
         }
         .names-area.revealed { filter: blur(0); }
         .names-area span { color: #1f1f1f; font-size: 2rem; }
+        .names-area small { font-size: 1.2rem; color: #1f1f1f; font-family: 'Amiri', serif; }
         .reveal-hint { font-size: 0.8rem; color: var(--orange); margin-bottom: 10px; cursor: pointer; font-weight: 600; }
 
         .welcome-phrase { font-family: 'Amiri', serif; font-size: 1.15rem; color: var(--orange); margin-bottom: 12px; }
@@ -207,8 +220,26 @@
         .countdown-number { font-size: 1.15rem; font-weight: 700; color: var(--orange); font-family: 'Amiri', serif; }
         .countdown-label { font-size: 0.65rem; color: #666; margin-top: 2px; }
 
-        .couple-image-container { width: 100%; margin-top: 6px; border: 2px solid var(--goldline); padding: 3px; background: #fff; }
-        .couple-image-container img { width: 100%; display: block; }
+        /* عبارة داخل العداد */
+        .countdown-quote {
+            grid-column: 1 / -1;
+            font-family: 'Amiri', serif;
+            font-size: 1.2rem;
+            color: var(--teal);
+            padding: 4px 0 8px;
+            border-bottom: 1px dashed rgba(217, 169, 63, 0.6);
+            margin-bottom: 4px;
+        }
+
+        /* إطار الصورة بنفس ثيم البطاقة */
+        .couple-image-container {
+            margin-top: 6px;
+            padding: 6px;
+            border: 2px solid var(--goldline);
+            background: #fffdf6;
+            box-shadow: inset 0 0 0 3px var(--teal), 0 6px 14px rgba(60, 45, 25, 0.18);
+        }
+        .couple-image-container img { width: 100%; display: block; border-radius: 2px; }
 
         .btn-calendar {
             display: block;
@@ -226,6 +257,31 @@
             box-shadow: 0 4px 10px rgba(59, 154, 163, 0.25);
         }
         .btn-calendar:hover { background: #2f8189; }
+
+        /* زر الموسيقى */
+        .music-btn {
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            z-index: 1000;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: var(--teal);
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .invitation-card { padding: 80px 30px; }
+            .inv-title { font-size: 2.2rem; }
+            .names-area { font-size: 2.4rem; flex-direction: column; gap: 4px; }
+            .parents-section { font-size: 1rem; }
+        }
     </style>
 </head>
 <body>
@@ -254,7 +310,6 @@
                 <feColorMatrix in="big" type="matrix" values="0 0 0 0 .58  0 0 0 0 .52  0 0 0 0 .40  0 0 0 .55 -.12" result="mottle"/>
                 <feComposite in="mottle" in2="lit" operator="over"/>
             </filter>
-            
         </defs>
     </svg>
 
@@ -303,10 +358,10 @@
     </svg>
 
     <!-- فراشات متحركة بالخلفية -->
-    <div class="butterfly"></div>
-    <div class="butterfly"></div>
-    <div class="butterfly"></div>
-    <div class="butterfly"></div>
+    <div class="butterfly" style="top:10%;left:10%;animation-duration:10s;animation-delay:0s"></div>
+    <div class="butterfly" style="top:75%;left:80%;animation-duration:12s;animation-delay:2s"></div>
+    <div class="butterfly" style="top:40%;left:85%;animation-duration:11s;animation-delay:1s"></div>
+    <div class="butterfly" style="top:80%;left:15%;animation-duration:9s;animation-delay:3s"></div>
 
     <!-- شاشة الافتتاحية -->
     <div id="envelope-screen">
@@ -315,7 +370,7 @@
             <div class="flap-wrap flap-left"><div class="flap"><svg aria-hidden="true"><rect width="100%" height="100%" filter="url(#pfxSide)"/></svg></div></div>
             <div class="flap-wrap flap-right"><div class="flap"><svg aria-hidden="true"><rect width="100%" height="100%" filter="url(#pfxSide)"/></svg></div></div>
             <div class="flap-wrap flap-top"><div class="flap"><svg aria-hidden="true"><rect width="100%" height="100%" filter="url(#pfxTop)"/></svg></div></div>
-            
+
             <!-- الختم الشمعي العنابي مع حرفي العروسين -->
             <div class="wax-seal">
                 <svg viewBox="0 0 100 100" direction="ltr" aria-hidden="true">
@@ -345,25 +400,26 @@
             <div class="bismillah">بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيمِ</div>
 
             <div class="quran-verse-top">
-                وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
+                <span class="qline">﴿وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا﴾</span>
+                <span class="qline">﴿لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً﴾</span>
             </div>
 
-                        <div class="inv-title">دَعوةُ خُطوبة</div>
+            <div class="inv-title">دَعوةُ خُطوبة</div>
 
             <p class="inv-verse">
                 في العمر أيام يزينها السرور، وسرور هذا اليوم مختلف لحظات الفرح. اخترنا من العمر موعداً بكل حب ومودة لنتشرف بدعوتكم.
             </p>
 
             <div class="parents-section">
-                <span>السيد ياسر</span>
+                <span>السيد ياسر الأنباري</span>
                 <span class="orn">❖</span>
-                <span>السيد انمار</span>
+                <span>السيد أنمار الأسدي</span>
             </div>
 
             <div class="invitation-to">لحضور ليلة من أجمل ليالي العمر حفل خطوبـة أبنائهما</div>
 
             <div class="names-area" id="namesArea" onclick="revealNames()" title="اضغط لإزالة التغبيش">
-                أمير <span>,</span> فاطمة
+                <small>الدكتور</small> أمير <span>&amp;</span> <small>الدكتورة</small> فاطمة
             </div>
             <div class="reveal-hint" id="revealHint" onclick="revealNames()">✨ اضغط هنا لكشف الأسماء ✨</div>
 
@@ -375,6 +431,7 @@
             </div>
 
             <div class="countdown-container">
+                <div class="countdown-quote">جنة الأطفال منازلهم</div>
                 <div class="countdown-box"><div class="countdown-number" id="days">--</div><div class="countdown-label">يوم</div></div>
                 <div class="countdown-box"><div class="countdown-number" id="hours">--</div><div class="countdown-label">ساعة</div></div>
                 <div class="countdown-box"><div class="countdown-number" id="minutes">--</div><div class="countdown-label">دقيقة</div></div>
@@ -382,92 +439,51 @@
             </div>
 
             <div class="couple-image-container">
-                <svg viewBox="0 0 400 300" role="img" aria-label="رسم لعقد قران" style="width:100%;display:block">
-                    <defs>
-                        <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdf3dc"/><stop offset="1" stop-color="#e3f0ee"/></linearGradient>
-                        <radialGradient id="glowG"><stop offset="0" stop-color="#f6d36a" stop-opacity="0.55"/><stop offset="1" stop-color="#f6d36a" stop-opacity="0"/></radialGradient>
-                        <g id="lantern">
-                            <circle cx="0" cy="38" r="24" fill="url(#glowG)"/>
-                            <path d="M0 0 V16" stroke="#b8902f" stroke-width="1.5"/>
-                            <path d="M-9 20 H9 L5 15 H-5Z" fill="#b8902f"/>
-                            <path d="M-8 20 H8 Q14 36 8 54 H-8 Q-14 36 -8 20Z" fill="#f2b631" stroke="#b8902f" stroke-width="1.5"/>
-                            <path d="M-5 24 Q-8 36 -5 50 M5 24 Q8 36 5 50" stroke="#fff3c4" stroke-width="1.2" fill="none"/>
-                            <path d="M-9 54 H9 L6 59 H-6Z" fill="#b8902f"/>
-                            <path d="M0 59 V68" stroke="#b8902f" stroke-width="1.5"/>
-                            <circle cx="0" cy="70" r="2.2" fill="#c4471c"/>
-                        </g>
-                        <path id="star" d="M0 -7 L1.8 -1.8 L7 0 L1.8 1.8 L0 7 L-1.8 1.8 L-7 0 L-1.8 -1.8Z"/>
-                        <g id="bush">
-                            <ellipse cx="66" cy="248" rx="34" ry="22" fill="#a7c796"/><ellipse cx="94" cy="254" rx="26" ry="16" fill="#8fb87f"/>
-                            <circle cx="56" cy="240" r="5" fill="#f0aaa5"/><circle cx="74" cy="233" r="5" fill="#e8935f"/><circle cx="85" cy="248" r="4.5" fill="#fff"/>
-                            <circle cx="60" cy="254" r="4.5" fill="#f6c9c4"/><circle cx="98" cy="246" r="4.5" fill="#f0aaa5"/><circle cx="76" cy="250" r="3.5" fill="#e8935f"/>
-                        </g>
-                    </defs>
-                    <rect width="400" height="300" fill="#fffaf0"/>
-                    <path d="M32 290 V132 C32 70 115 32 200 32 C285 32 368 70 368 132 V290Z" fill="url(#skyG)" stroke="#3b9aa3" stroke-width="7"/>
-                    <path d="M42 290 V134 C42 78 120 42 200 42 C280 42 358 78 358 134 V290" fill="none" stroke="#d9a93f" stroke-width="1.5"/>
-                    <path d="M206 52 A18 18 0 1 0 206 88 A14 14 0 1 1 206 52Z" fill="#d9a93f"/>
-                    <use href="#star" x="244" y="64" fill="#d9a93f"/><use href="#star" x="158" y="92" fill="#d9a93f" transform="translate(158 92) scale(.7) translate(-158 -92)"/><use href="#star" x="256" y="98" fill="#d9a93f" transform="translate(256 98) scale(.55) translate(-256 -98)"/>
-                    <use href="#lantern" x="84" y="84"/><use href="#lantern" x="316" y="84"/>
-                    <path d="M42 262 C110 250 290 250 358 262 V290 H42Z" fill="#cfe4d3"/>
-                    <use href="#bush"/><use href="#bush" transform="translate(400 0) scale(-1 1)"/>
-                    <g fill="#f0aaa5"><ellipse cx="120" cy="150" rx="4" ry="2" transform="rotate(30 120 150)"/><ellipse cx="290" cy="170" rx="4" ry="2" transform="rotate(-30 290 170)"/><ellipse cx="140" cy="210" rx="4" ry="2" transform="rotate(50 140 210)"/><ellipse cx="270" cy="120" rx="4" ry="2" transform="rotate(-50 270 120)"/><ellipse cx="310" cy="220" rx="4" ry="2" transform="rotate(20 310 220)"/></g>
-
-                    <!-- العريس -->
-                    <g transform="translate(-12 0)">
-                        <ellipse cx="160" cy="266" rx="10" ry="3.5" fill="#1b1b1f"/><ellipse cx="182" cy="266" rx="10" ry="3.5" fill="#1b1b1f"/>
-                        <path d="M138 154 Q138 138 158 136 H182 Q202 138 202 154 L204 262 H136Z" fill="#27334d"/>
-                        <path d="M159 137 L170 163 L181 137Z" fill="#fff"/>
-                        <path d="M170 152 L166.5 159 L170 182 L173.5 159Z" fill="#c4471c"/>
-                        <path d="M159 137 L166 170 L156 150Z M181 137 L174 170 L184 150Z" fill="#34425f"/>
-                        <path d="M170 170 V262" stroke="#1d2740" stroke-width="1"/><circle cx="170" cy="200" r="1.6" fill="#d9a93f"/>
-                        <path d="M139 152 C131 190 138 214 148 222" stroke="#27334d" stroke-width="11" stroke-linecap="round" fill="none"/>
-                        <path d="M201 152 C209 190 202 214 192 222" stroke="#27334d" stroke-width="11" stroke-linecap="round" fill="none"/>
-                        <circle cx="148" cy="225" r="4.5" fill="#ebbf98"/><circle cx="192" cy="225" r="4.5" fill="#ebbf98"/>
-                        <rect x="165" y="127" width="10" height="12" fill="#ebbf98"/>
-                        <circle cx="170" cy="116" r="15" fill="#f0c8a4"/>
-                        <path d="M155 114 C154 98 186 98 185 114 C180 106 160 106 155 114Z" fill="#2a1f17"/>
-                    </g>
-
-                    <!-- العروس -->
-                    <g transform="translate(17 0)">
-                        <path d="M211 126 C190 172 182 232 176 268 H284 C278 232 270 172 249 126Z" fill="#f1ece0" stroke="#e1d7c2"/>
-                        <path d="M212 158 C216 148 244 148 248 158 L274 266 H186Z" fill="#fffdf8" stroke="#e3d8c4"/>
-                        <path d="M214 176 Q230 182 246 176" stroke="#d9a93f" stroke-width="3" fill="none"/>
-                        <g fill="#efe6d2"><circle cx="222" cy="210" r="1.8"/><circle cx="240" cy="214" r="1.8"/><circle cx="230" cy="232" r="1.8"/><circle cx="212" cy="240" r="1.8"/><circle cx="250" cy="240" r="1.8"/></g>
-                        <path d="M213 160 C206 182 218 194 228 192 M247 160 C254 182 242 194 232 192" stroke="#e3d8c4" stroke-width="9" stroke-linecap="round" fill="none"/>
-                        <path d="M213 160 C206 182 218 194 228 192 M247 160 C254 182 242 194 232 192" stroke="#fffdf8" stroke-width="7" stroke-linecap="round" fill="none"/>
-                        <ellipse cx="222" cy="198" rx="5" ry="2" fill="#8fb87f" transform="rotate(20 222 198)"/><ellipse cx="238" cy="198" rx="5" ry="2" fill="#8fb87f" transform="rotate(-20 238 198)"/>
-                        <circle cx="226" cy="192" r="6" fill="#f0aaa5"/><circle cx="234" cy="192" r="6" fill="#e8935f"/><circle cx="230" cy="198" r="5.5" fill="#fff" stroke="#eadcc8"/>
-                        <path d="M213 130 C211 106 249 106 247 130 C251 142 252 152 247 162 L213 162 C208 152 209 142 213 130Z" fill="#fff" stroke="#e3d8c4"/>
-                        <ellipse cx="230" cy="129" rx="9.5" ry="12" fill="#f0c8a4"/>
-                        <path d="M219 119 C224 111 236 111 241 119 C236 114 224 114 219 119Z" fill="#fff"/>
-                    </g>
-                </svg>
+                <img src="rings-quran.jpg" alt="خاتمان فوق مصحف">
             </div>
 
             <button class="btn-calendar" onclick="addToCalendar()">إضافة الموعد إلى التقويم</button>
         </div>
     </div>
 
+    <audio id="bgMusic" loop src="zawaj-alnooreen.mp3"></audio>
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()" aria-label="تشغيل أو إيقاف الموسيقى">❚❚</button>
+
     <script>
+        const bgMusic = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+
+        // فتح الظرف + تشغيل الموسيقى (لازم يكون ضمن نقرة المستخدم حتى يشتغل الصوت)
         function openFloralEnvelope() {
             const env = document.getElementById('floralEnv');
             const screen = document.getElementById('envelope-screen');
             const card = document.getElementById('invCard');
-
             if (env.classList.contains('open')) return;
             env.classList.add('open');
 
-            // الطيّات تنفتح (1.3 ثانية) ثم تختفي الشاشة وتظهر البطاقة
+            bgMusic.volume = 0.6;
+            bgMusic.play().catch(() => {});
+            musicBtn.style.display = 'block';
+            musicBtn.textContent = '❚❚';
+
             setTimeout(() => {
                 screen.style.opacity = '0';
                 setTimeout(() => {
                     screen.style.display = 'none';
                     card.style.display = 'block';
-                    setTimeout(() => { card.classList.add('show'); }, 50);
+                    setTimeout(() => card.classList.add('show'), 50);
                 }, 800);
             }, 1100);
+        }
+
+        function toggleMusic() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                musicBtn.textContent = '❚❚';
+            } else {
+                bgMusic.pause();
+                musicBtn.textContent = '♪';
+            }
         }
 
         function revealNames() {
@@ -475,33 +491,29 @@
             document.getElementById('revealHint').style.display = 'none';
         }
 
-        // العد التنازلي: 28 نوفمبر 2026 الساعة 4:00 عصراً
-        const targetDate = new Date('November 28, 2026 16:00:00').getTime();
+        // العد التنازلي: السبت 28 نوفمبر 2026 الساعة 4:00 عصراً بتوقيت بغداد
+        const targetDate = new Date('2026-11-28T16:00:00+03:00').getTime();
 
         function updateCountdown() {
-            const now = new Date().getTime();
-            const difference = targetDate - now;
+            const difference = targetDate - Date.now();
+            const set = (id, val) => document.getElementById(id).innerText = String(val).padStart(2, '0');
 
             if (difference > 0) {
-                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-                document.getElementById('days').innerText = days;
-                document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
-                document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
-                document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+                set('days', Math.floor(difference / 86400000));
+                set('hours', Math.floor((difference % 86400000) / 3600000));
+                set('minutes', Math.floor((difference % 3600000) / 60000));
+                set('seconds', Math.floor((difference % 60000) / 1000));
             } else {
-                ['days', 'hours', 'minutes', 'seconds'].forEach(id => document.getElementById(id).innerText = '0');
+                ['days', 'hours', 'minutes', 'seconds'].forEach(id => set(id, 0));
             }
         }
-
-        setInterval(updateCountdown, 1000);
         updateCountdown();
+        setInterval(updateCountdown, 1000);
 
         function addToCalendar() {
-            window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('خطوبة أمير وفاطمة - منتجع العبسلي')}&dates=20261128T130000Z/20261128T180000Z&details=${encodeURIComponent('ننتظركم في منتجع العبسلي - الكاظمية الساعة 4 عصراً لمشاركتنا فرحة خطوبتنا')}`, '_blank');
+            const title = encodeURIComponent('خطوبة أمير وفاطمة - منتجع العبسلي');
+            const details = encodeURIComponent('ننتظركم في منتجع العبسلي - الكاظمية الساعة 4 عصراً لمشاركتنا فرحة خطوبتنا');
+            window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20261128T130000Z/20261128T180000Z&details=${details}`, '_blank');
         }
     </script>
 </body>
